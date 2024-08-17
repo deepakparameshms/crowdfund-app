@@ -82,7 +82,7 @@ const ProductCard = (props) => {
                             {!isbacker ? (<><h2 className="product_card_title">₹ {props.data.Current}</h2>
                                 <p className="product_card_desc">pledged of ₹ {props.data.Ask} goal</p>
                                 <h2 className="product_card_title">{props.data.Backers}</h2>
-                                <p className="product_card_desc">backers</p>
+                                <p className="product_card_desc">Supporters</p>
                                 <button type="button" onClick={() => setIsBacker(true)} className="btn backer__btn">Support project</button></>) : (
                                 <>
                                     <h4 className="text-center mb-3" style={{ fontWeight: "800" }}>Enter the Amount</h4>

@@ -173,7 +173,7 @@ router.post('/pay-order', async (req, res) => {
       },
     });
     let startup = await Startup.findById(startup_id);
-    await Startup.findByIdAndUpdate(startup_id, { Current: startup.Current + amount, Backers: startup.Backers + 1 });
+    await Startup.findByIdAndUpdate(startup_id, { Current: startup.Current + Number(amount), Backers: startup.Backers + 1 });
     await newOrder.save();
     res.json({
       success: true,
