@@ -8,12 +8,20 @@ const ProductCard = (props) => {
     const [isbacker, setIsBacker] = useState(false);
     const context = useContext(UserContext);
     const navigate = useNavigate();
-    const { loadRazorpay, setOrderAmount, orderAmount, paymentSuccess,} = context;
+    const { loadRazorpay, setOrderAmount, orderAmount, paymentSuccess, submitPayment} = context;
     useEffect(() => {
         if (paymentSuccess) {
             navigate("/dashboard/startup/review");
         }
     }, [paymentSuccess])
+
+    const handlePaymentSubmit = () => {
+        submitPayment();
+    };
+
+    const cancelPayment = () => {
+        setIsBacker(false);
+    }
 
     return (
         <div className="container my-5">
@@ -75,18 +83,16 @@ const ProductCard = (props) => {
                                 <p className="product_card_desc">pledged of ₹ {props.data.Ask} goal</p>
                                 <h2 className="product_card_title">{props.data.Backers}</h2>
                                 <p className="product_card_desc">backers</p>
-                                <button type="button" onClick={() => setIsBacker(true)} className="btn backer__btn">Back this project</button></>) : (
+                                <button type="button" onClick={() => setIsBacker(true)} className="btn backer__btn">Support project</button></>) : (
                                 <>
                                     <h4 className="text-center mb-3" style={{ fontWeight: "800" }}>Enter the Amount</h4>
                                     <input type="number" min={10} max={1000} className="mb-3 product_card_amount_input" name="orderAmount" value={orderAmount} onChange={(e) => {
                                         setOrderAmount(e.target.value);
                                     }} required />
-                                    <button type="button" className="btn backer__btn" disabled={orderAmount > 10 ? false : true} onClick={() => {
-                                        loadRazorpay();
-                                    }}>Pay Now</button></>
+                                    <button type="button" className="btn backer__btn" disabled={orderAmount > 10 ? false : true} onClick={handlePaymentSubmit}>Pay Now</button>
+                                    <button type="button" className="btn normal__btn" onClick={cancelPayment}>Cancel</button>
+                                    </>
                             )}
-
-
                         </div>
                     </div>
                 </div>

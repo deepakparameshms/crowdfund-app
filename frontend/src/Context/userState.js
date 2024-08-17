@@ -25,6 +25,33 @@ const UserState = (props) => {
     getUserData();
   }, []);
 
+
+  const submitPayment = async (e) => {
+
+    const response = await axios.post(
+      `/api/investor/pay-order`,
+      {
+      amount: orderAmount,
+      razorpayPaymentId: "random-payment-id",
+      razorpayOrderId: "random-order-id",
+      razorpaySignature: "random-signature",
+      investor_id: user._id,
+      startup_id: startupData._id,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": localStorage.getItem("token"),
+      },
+    }
+    )
+
+    if (response.data.success) {
+      showAlert(response.data.msg, "success");
+      setPaymentSuccess(true);
+    }
+  }
+
   // payment Gateway
   const loadRazorpay = () => {
     const script = document.createElement("script");
@@ -178,6 +205,7 @@ const UserState = (props) => {
         setStartupData,
         startupData,
         loadRazorpay,
+        submitPayment,
         setOrderAmount,
         orderAmount,
         getUserStartups,

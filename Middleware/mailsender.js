@@ -31,7 +31,7 @@ const mailsend = async (options) => {
           margin-left: auto;
           margin-right: auto;" />
           <h2 style="color: rgb(140, 96, 245); text-align: center;">Verify Yor Email</h2>
-          <p style="font-size: 12px; text-align: center;">Almost there! We've send a verification email to ${options.name} <br /> You need to verify your email address to log into CrowdsClub.</p>
+          <p style="font-size: 12px; text-align: center;">Almost there! We've send a verification email to ${options.name} <br /> You need to verify your email address to log into CrowdFunds.</p>
           <a href=${options.url} style="cursor: pointer;"><button  style="display: block;
           margin-left: auto;
           margin-right: auto;

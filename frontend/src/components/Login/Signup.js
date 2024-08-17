@@ -114,7 +114,7 @@ const Signup = () => {
                     <button type="submit"
                       className="register__button"
                       value="Register"
-                      hidden={
+                      disabled={
                         password === cpassword && password.length > 5 ? false : true
                       } >
                       Register

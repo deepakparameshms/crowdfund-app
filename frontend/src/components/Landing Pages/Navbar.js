@@ -5,7 +5,7 @@ const Navbar = () => {
     return (
                 <nav className="navbar navbar-expand-lg top__head">
                 <div className="container-fluid">
-                    <Link className="navbar-brand head" to="/">CrowdsClub</Link>
+                    <Link className="navbar-brand head" to="/">CrowdFunds</Link>
                     <button className="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon togg__icon"></span>
                         {/* <i className="fa-solid fa-circle-caret-down togg__icon"></i> */}
