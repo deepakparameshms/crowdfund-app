@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import UserContext from '../../Context/userContext';
 import axios from '../../Axios/axios';
 import Navbar from '../Landing Pages/Navbar';
+import loginImg from '../images/login.jpg';
+
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const navigate = useNavigate();
@@ -44,7 +46,7 @@ const Login = () => {
           <form onSubmit={handleSubmit}>
             <div className="row g-0">
               <div className="col-lg-6 col-sm-12">
-                <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" className="img-fluid rounded-start login__image" alt="login" />
+                <img src={loginImg} className="img-fluid rounded-start login__image" alt="login" />
               </div>
               <div className="col-lg-6 col-sm-12">
                 <div className="card-body">
