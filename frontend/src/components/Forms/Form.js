@@ -154,7 +154,7 @@ const Form = () => {
                                         onChange={onChange}
                                         required={true} > 
                                         <option >Choose the category</option>
-                                        <option value="Art">Art</option>
+                                        <option value="Arts">Arts</option>
                                         <option value="Design and Tech">Design and Tech</option>
                                         <option value="Film">Film</option>
                                         <option value="Games">Games</option>

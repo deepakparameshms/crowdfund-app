@@ -11,7 +11,7 @@ const Dashboard = () => {
   const context = useContext(UserContext);
   let { getUserData, startups, getStartups } = context;
   const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState("Design and Tech")
+  const [category, setCategory] = useState("*")
   useEffect(() => {
     if (!localStorage.getItem('token')) {
       navigate("/login");
@@ -24,7 +24,7 @@ const Dashboard = () => {
   }, [])
 
   const resourceCopy = [...startups];
-  const FilteredList = resourceCopy.filter((element) => {
+  const FilteredList = category === "*" ? resourceCopy : resourceCopy.filter((element) => {
     return element.Category === category;
   });
   const resourceList = FilteredList.map((el) => (
@@ -35,6 +35,7 @@ const Dashboard = () => {
       {loading ? (<ReactLoading type={"cylon"} color={"rgb(225, 41, 246)"} height={'50%'} width={'100%'} />) : (<>
         <DashboardNavbar />
         <div className="scrollmenu">
+          <h5 onClick={() => { setCategory("*") }}>Category: All</h5>
           <h5 onClick={() => { setCategory("Design and Tech") }}>Design and Tech</h5>
           <h5 onClick={() => { setCategory("Arts") }}>Arts</h5>
           <h5 onClick={() => { setCategory("Film") }}>Film</h5>
@@ -49,7 +50,7 @@ const Dashboard = () => {
 
           <div className="container my-5">
             <div className="row gy-3">
-              {(FilteredList.length === 0) && <> <h2 className="text-center my-5" style={{ color: "rgb(225, 41, 246)" }}>No Projects of this category has been here yet...</h2></>}
+              {(FilteredList.length === 0) && <> <h2 className="text-center my-5" style={{ color: "rgb(225, 41, 246)" }}>No Projects of this category has been here yet!</h2></>}
               {resourceList}
             </div>
           </div>
