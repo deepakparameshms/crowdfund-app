@@ -4,7 +4,7 @@
 Crowd-Funding-Application
 
 ## Description
-A digital crowdfunding platform that connects college-based startups with their audience or backers, raises awareness of
+A digital crowdfunding platform that connects college-based startups with their audience or supporters, raises awareness of
 the crowdfunding ecosystem and its advantages assist college-based entrepreneurs in registering for crowdfunding and obtaining
 public feedback and reach.
 

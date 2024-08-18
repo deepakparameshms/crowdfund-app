@@ -79,11 +79,17 @@ const ProductCard = (props) => {
                 <div className="col-lg-3 col-md-12 col-sm-12 mb-3">
                     <div className="card product_card">
                         <div className="card-body">
-                            {!isbacker ? (<><h2 className="product_card_title">₹ {props.data.Current}</h2>
+                            {!isbacker ? (
+                                <>
+                                <h2 className="product_card_title">₹ {props.data.Current}</h2>
                                 <p className="product_card_desc">pledged of ₹ {props.data.Ask} goal</p>
-                                <h2 className="product_card_title">{props.data.Backers}</h2>
+                                <h2 className="product_card_title">{props.data.Supporters}</h2>
                                 <p className="product_card_desc">Supporters</p>
-                                <button type="button" onClick={() => setIsBacker(true)} className="btn backer__btn">Support project</button></>) : (
+                                <button type="button" onClick={() => setIsBacker(true)} className="btn backer__btn" disabled={props.data.isAchieved}>
+                                        {props.data.isAchieved ? "Milestone Achieved 🎉" : "Support project"}
+                                </button>
+                                </>
+                                ) : (
                                 <>
                                     <h4 className="text-center mb-3" style={{ fontWeight: "800" }}>Enter the Amount</h4>
                                     <input type="number" min={10} max={1000} className="mb-3 product_card_amount_input" name="orderAmount" value={orderAmount} onChange={(e) => {
@@ -91,7 +97,7 @@ const ProductCard = (props) => {
                                     }} required />
                                     <button type="button" className="btn backer__btn" disabled={orderAmount > 10 ? false : true} onClick={handlePaymentSubmit}>Pay Now</button>
                                     <button type="button" className="btn normal__btn" onClick={cancelPayment}>Cancel</button>
-                                    </>
+                                </>
                             )}
                         </div>
                     </div>

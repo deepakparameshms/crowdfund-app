@@ -173,7 +173,12 @@ router.post('/pay-order', async (req, res) => {
       },
     });
     let startup = await Startup.findById(startup_id);
-    await Startup.findByIdAndUpdate(startup_id, { Current: startup.Current + Number(amount), Backers: startup.Backers + 1 });
+    let updateStartupObject = { Current: startup.Current + Number(amount), Supporters: startup.Supporters + 1, isAchieved: false };
+    if(updateStartupObject.Current >= startup.Ask){
+      updateStartupObject.isAchieved = true;
+    }
+    console.log(updateStartupObject);
+    await Startup.findByIdAndUpdate(startup_id, updateStartupObject);
     await newOrder.save();
     res.json({
       success: true,

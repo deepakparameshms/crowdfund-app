@@ -21,7 +21,8 @@ const StartupSchema = new mongoose.Schema({
     LogoUrl: { type: String, unique: true },
     Ask: { type: Number, default: 0 },
     Current: { type: Number, default: 0 },
-    Backers: { type: Number, default: 0 }
+    Supporters: { type: Number, default: 0 },
+    isAchieved: { type: Boolean, default: false }
 })
 const Startup = mongoose.model("project", StartupSchema);
 Startup.createIndexes();
