@@ -7,19 +7,19 @@ const ReviewForm = () => {
     const navigate = useNavigate();
     const context = useContext(UserContext);
     let { showAlert, startupData, setPaymentSuccess } = context;
-    const [credentials, setCredentials] = useState({ ideaRating: 0, approachRating: 0, websiteRating: 0, instagramRating: 0 })
+    const [reviews, setReviews] = useState({ ideaRating: 1, approachRating: 1 })
     const [active, setActive] = useState("");
     const onChange = (e) => {
         e.preventDefault();
         setActive("button_active");
-        setCredentials({ ...credentials, [e.target.name]: e.target.value });
+        setReviews({ ...reviews, [e.target.name]: e.target.value });
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { ideaRating, approachRating, websiteRating, instagramRating } = credentials;
-        let overallRating = (parseInt(ideaRating) + parseInt(approachRating) + parseInt(websiteRating) + parseInt(instagramRating)) / 4;
+        const { ideaRating, approachRating } = reviews;
+        let overallRating = (parseInt(ideaRating) + parseInt(approachRating)) / 2;
         const response = await axios.post('/api/investor/review', {
-            Startup_id: startupData._id, ideaRating, approachRating, websiteRating, instagramRating, overallRating
+            ideaRating, approachRating, Startup_id: startupData._id, overallRating
         }, {
             headers: {
                 "Content-Type": "application/json",
@@ -32,7 +32,7 @@ const ReviewForm = () => {
         if (response.data.success) {
             showAlert(response.data.msg, "success");
         }
-        setCredentials({ ideaRating: 0, approachRating: 0, websiteRating: 0, instagramRating: 0 });
+        setReviews({ ideaRating: 1, approachRating: 1});
         setPaymentSuccess(false);
         navigate("/dashboard");
     }
