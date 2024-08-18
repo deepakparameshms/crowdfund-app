@@ -4,7 +4,7 @@
 }
 
 .transaction_card{
-    max-height: 480px;
+    max-height: 750px;
     border-top: 8px solid rgb(225, 41, 246);
     border-bottom: 8px solid rgb(225, 41, 246);
     overflow-y: scroll;

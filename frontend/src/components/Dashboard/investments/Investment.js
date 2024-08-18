@@ -18,9 +18,9 @@ const Investment = () => {
         <>
             <DashboardNavbar />
             <div className="container">
-                <h2 className="text-center my-3 investment_heading">Your Investments...</h2>
+                <h2 className="text-center my-3 investment_heading">Your Investments</h2>
                 <div className="row">
-                    {(investmentData.length === 0) && <h1> You Don't Have Any Investments.....</h1>}
+                    {(investmentData.length === 0) && <h1> You Don't Have Any Investments</h1>}
                     {(investmentData.length > 0) && (
                         investmentData.map((element) => {
                             return <div className="col-md-6 col-sm-12"><InvestmentCard key={element._id} data={element} /></div>

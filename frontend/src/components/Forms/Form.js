@@ -61,18 +61,23 @@ const Form = () => {
     const onChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
     };
+
+    const handleCancel = () => {
+        navigate(-1);
+    }
+
     return (
         <>
             <div className="card mb-3 mx-auto my-5 startup_form">
                 <div className="row g-0">
                     <div className="col-md-7">
                         <div className="card-body">
-                            <h1 className="card-title text-center startup_form_head">Startup Registration Form</h1>
+                            <h1 className="card-title text-center startup_form_head">Project Registration Form</h1>
                             <form className="my-4" onSubmit={createStartup}>
                                 <div className="mb-3">
-                                    <label htmlFor="Name" className="form-label text-muted">What is the name of your startup?</label>
+                                    <label htmlFor="Name" className="form-label text-muted">What is the name of your project?</label>
                                     <input type="text"
-                                        placeholder="Startup Name"
+                                        placeholder="Project Name"
                                         className="form-control form_input"
                                         id="Name"
                                         name="Name"
@@ -92,7 +97,7 @@ const Form = () => {
                                         required={true} />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="Description" className="form-label text-muted">Describe your startup in less than 50 words?</label>
+                                    <label htmlFor="Description" className="form-label text-muted">Describe your project in less than 50 words?</label>
                                     <textarea rows="4" className="form_input textarea_input"
                                         id="Description"
                                         name="Description"
@@ -102,51 +107,7 @@ const Form = () => {
                                     </textarea>
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="Website" className="form-label text-muted">Enter your website's address</label>
-                                    <input type="url"
-                                        placeholder="Website's Address"
-                                        className="form-control form_input"
-                                        id="Website"
-                                        name="Website"
-                                        value={credentials.Website}
-                                        onChange={onChange}
-                                        required={true} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="Instagram" className="form-label text-muted">Enter your Startup's Instagram Page's link</label>
-                                    <input type="url" placeholder="Startup's Instagram Page's link"
-                                        className="form-control form_input"
-                                        id="Instagram"
-                                        name="Instagram"
-                                        value={credentials.Instagram}
-                                        onChange={onChange}
-                                        required={true}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="Email" className="form-label text-muted">Enter your Startup's Email</label>
-                                    <input type="Email"
-                                        placeholder="Startup's Email (Official)"
-                                        className="form-control form_input"
-                                        id="Email"
-                                        name="Email"
-                                        value={credentials.Email}
-                                        onChange={onChange}
-                                        required={true} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="LinkedIn" className="form-label text-muted">Enter your Startup's LinkedIn Page's link</label>
-                                    <input type="url"
-                                        placeholder="Startup's LinkedIn Page's link"
-                                        className="form-control form_input"
-                                        id="LinkedIn"
-                                        name="LinkedIn"
-                                        value={credentials.LinkedIn}
-                                        onChange={onChange}
-                                        required={true} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="Category" className="form-label text-muted">Select the category in which your startup operate</label>
+                                    <label htmlFor="Category" className="form-label text-muted">Select the category of your project</label>
                                     <select className="form-select form_input" aria-label="Default select example"
                                         id="Category"
                                         name="Category"
@@ -166,18 +127,7 @@ const Form = () => {
                                     </select>
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="Vision" className="form-label text-muted" >Explain your startup's Vision in less than 50 words.</label>
-                                    <textarea rows="4"
-                                        className="form_input textarea_input"
-                                        id="Vision"
-                                        name="Vision"
-                                        value={credentials.Vision}
-                                        onChange={onChange}
-                                        required={true}>
-                                    </textarea>
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="Problemstatement" className="form-label text-muted">State the problem you are trying to solve with your startup</label>
+                                    <label htmlFor="Problemstatement" className="form-label text-muted">State the problem you are trying to solve with your project</label>
                                     <textarea
                                         rows="4"
                                         className="form_input textarea_input"
@@ -187,6 +137,17 @@ const Form = () => {
                                         onChange={onChange}
                                         required={true}
                                     >
+                                    </textarea>
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="Vision" className="form-label text-muted" >Explain your project's Vision in less than 100 words.</label>
+                                    <textarea rows="4"
+                                        className="form_input textarea_input"
+                                        id="Vision"
+                                        name="Vision"
+                                        value={credentials.Vision}
+                                        onChange={onChange}
+                                        required={true}>
                                     </textarea>
                                 </div>
                                 <div className="mb-3">
@@ -202,7 +163,7 @@ const Form = () => {
                                     </textarea>
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="Ask" className="form-label text-muted">How much amount you want to raise for your startup?</label>
+                                    <label htmlFor="Ask" className="form-label text-muted">How much amount you want to raise for your project?</label>
                                     <input
                                         type="number"
                                         placeholder="Amount"
@@ -213,7 +174,52 @@ const Form = () => {
                                         onChange={onChange}
                                         required={true} />
                                 </div>
+                                <div className="mb-3">
+                                    <label htmlFor="Website" className="form-label text-muted">Enter your website's address</label>
+                                    <input type="url"
+                                        placeholder="Website's Address"
+                                        className="form-control form_input"
+                                        id="Website"
+                                        name="Website"
+                                        value={credentials.Website}
+                                        onChange={onChange}
+                                        required={true} />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="Instagram" className="form-label text-muted">Enter your project's Instagram Page's link</label>
+                                    <input type="url" placeholder="Project's Instagram Page's link"
+                                        className="form-control form_input"
+                                        id="Instagram"
+                                        name="Instagram"
+                                        value={credentials.Instagram}
+                                        onChange={onChange}
+                                        required={true}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="Email" className="form-label text-muted">Enter your team's Email</label>
+                                    <input type="Email"
+                                        placeholder="Project's Email (Official)"
+                                        className="form-control form_input"
+                                        id="Email"
+                                        name="Email"
+                                        value={credentials.Email}
+                                        onChange={onChange}
+                                        required={true} />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="LinkedIn" className="form-label text-muted">Enter your project's LinkedIn Page's link</label>
+                                    <input type="url"
+                                        placeholder="Project's LinkedIn Page's link"
+                                        className="form-control form_input"
+                                        id="LinkedIn"
+                                        name="LinkedIn"
+                                        value={credentials.LinkedIn}
+                                        onChange={onChange}
+                                        required={true} />
+                                </div>
                                 <button type="submit" className="btn form_submit_btn">Submit</button>
+                                <button type="button" className="btn cancel_btn" onClick={handleCancel}>Cancel</button>
                             </form>
                         </div>
                     </div>

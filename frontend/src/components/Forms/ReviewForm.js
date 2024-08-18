@@ -36,6 +36,10 @@ const ReviewForm = () => {
         setPaymentSuccess(false);
         navigate("/dashboard");
     }
+
+    const handleCancel = () => {
+        navigate("/dashboard");
+    }
     return (
         <>
             <div className="card mb-3 mx-auto my-5 startup_form">
@@ -70,29 +74,8 @@ const ReviewForm = () => {
                                         <option value={5}>5</option>
                                     </select>
                                 </div>
-                                <div className="mb-3">
-                                    <label for="exampleInputPassword1" className="form-label text-muted">To the website of the Startup?</label>
-                                    <select name="websiteRating" className="form-select rating_btn" onChange={onChange} aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value={1}>1</option>
-                                        <option value={2}>2</option>
-                                        <option value={3}>3</option>
-                                        <option value={4}>4</option>
-                                        <option value={5}>5</option>
-                                    </select>
-                                </div>
-                                <div className="mb-3">
-                                    <label for="exampleInputPassword1" className="form-label text-muted">To the Instagram page of the Startup?</label>
-                                    <select name="instagramRating" className="form-select rating_btn" onChange={onChange} aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value={1}>1</option>
-                                        <option value={2}>2</option>
-                                        <option value={3}>3</option>
-                                        <option value={4}>4</option>
-                                        <option value={5}>5</option>
-                                    </select>
-                                </div>
-                                <button className="my-5 btn form_submit_btn" onClick={handleSubmit}>Submit</button>
+                                <button className="my-3 btn form_submit_btn" onClick={handleSubmit}>Submit</button>
+                                <button className="my-3 btn cancel_btn" onClick={handleCancel}>Skip for now</button>
                             </form>
                         </div>
                     </div>
