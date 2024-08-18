@@ -12,14 +12,6 @@ const ReviewSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    websiteRating: {
-        type: Number,
-        required: true,
-    },
-    instagramRating: {
-        type: Number,
-        required: true,
-    },
     overallRating: {
         type: Number,
         required: true,

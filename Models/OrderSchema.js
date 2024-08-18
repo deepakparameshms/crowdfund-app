@@ -10,7 +10,10 @@ const OrderSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Startup"
     },
-    razorpay: {
+    payment_service: String,
+    payment_mode: String,
+    transaction_id: String,
+    payment_info: {
         orderId: String,
         paymentId: String,
         signature: String,
@@ -18,8 +21,7 @@ const OrderSchema = mongoose.Schema({
     date: {
         type: Date,
         default: Date.now,
-    },
-
+    }
 });
 const Order = mongoose.model('Order', OrderSchema);
 module.exports = Order;

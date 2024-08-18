@@ -32,8 +32,8 @@ const UserState = (props) => {
       `/api/investor/pay-order`,
       {
       amount: orderAmount,
-      razorpayPaymentId: "random-payment-id",
       razorpayOrderId: "random-order-id",
+      razorpayPaymentId: "random-payment-id",
       razorpaySignature: "random-signature",
       investor_id: user._id,
       startup_id: startupData._id,
