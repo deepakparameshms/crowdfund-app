@@ -1,7 +1,6 @@
 import React from 'react'
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, Link } from 'react-router-dom';
-import axios from '../../Axios/axios';
 import UserContext from "../../Context/userContext";
 
 
@@ -10,17 +9,8 @@ const ProductCard = (props) => {
     const context = useContext(UserContext);
     const navigate = useNavigate();
     const { user} = context;
-    const { setOrderAmount, orderAmount, paymentSuccess, submitPayment} = context;
+    const [orderAmount, setOrderAmount] = useState(0);
 
-    useEffect(() => {
-        if (paymentSuccess) {
-            navigate("/dashboard/startup/review");
-        }
-    }, [paymentSuccess])
-
-    const handlePaymentSubmit = () => {
-        submitPayment();
-    };
 
     const cancelPayment = () => {
         setIsBacker(false);
@@ -105,7 +95,7 @@ const ProductCard = (props) => {
                                     <input type="number" min={10} max={1000} className="mb-3 product_card_amount_input" name="orderAmount" value={orderAmount} onChange={(e) => {
                                         setOrderAmount(e.target.value);
                                     }} required />
-                                    <button type="button" className="btn backer__btn" disabled={orderAmount > 10 ? false : true} onClick={handlePaymentSubmit}>Pay Now</button>
+                                    <Link className="btn backer__btn" disabled={orderAmount > 10 ? false : true} to={`/payment`} state={{startupData : props.data, amount: orderAmount}}>Pay Now</Link>
                                     <button type="button" className="btn normal__btn" onClick={cancelPayment}>Cancel</button>
                                 </>
                             )}

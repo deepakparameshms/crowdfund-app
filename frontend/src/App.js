@@ -20,6 +20,7 @@ import Product from "./components/Dashboard/Product";
 import Form from "./components/Forms/Form";
 import Profile from "./components/Dashboard/profile/Profile";
 import ReviewForm from "./components/Forms/ReviewForm";
+import Payment from "./components/Payment/Payment";
 import Error from "./components/failed/Error";
 import YourProjects from "./components/Dashboard/your-projects/YourProjects";
 import Investment from "./components/Dashboard/investments/Investment";
@@ -83,6 +84,8 @@ function App() {
             <Route exact path="/dashboard/yourProject" element={<YourProjects></YourProjects>}></Route>
 
             <Route exact path="/dashboard/investments" element={<Investment></Investment>}></Route>
+
+            <Route exact path="/payment" element={<Payment />} />
 
             <Route exact path="*" element={<Error></Error>} />
           </Routes>

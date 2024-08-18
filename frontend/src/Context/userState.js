@@ -27,37 +27,6 @@ const UserState = (props) => {
     getUserData();
   }, []);
 
-
-  const submitPayment = async (e) => {
-
-    const response = await axios.post(
-      `/api/investor/pay-order`,
-      {
-      amount: orderAmount,
-      paymentOrderId: uuidv4(),
-      paymentId: uuidv4(),
-      paymentSignature: "signature-from-payment-service",
-      paymentService: "Paypal",
-      paymentMode: "",
-      transactionId: uuidv4(),
-      investor_id: user._id,
-      startup_id: startupData._id,
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token"),
-      },
-    }
-    )
-
-    if (response.data.success) {
-      showAlert(response.data.msg, "success");
-      setPaymentSuccess(true);
-    }
-  }
-
-
   const getInvestmentData = async () => {
     const response = await axios
       .get("/api/investor/getTransactions", {
@@ -125,7 +94,6 @@ const UserState = (props) => {
         getStartups,
         setStartupData,
         startupData,
-        submitPayment,
         setOrderAmount,
         orderAmount,
         getUserStartups,
