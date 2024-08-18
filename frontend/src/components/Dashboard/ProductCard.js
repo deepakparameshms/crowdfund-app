@@ -9,7 +9,7 @@ const ProductCard = (props) => {
     const context = useContext(UserContext);
     const navigate = useNavigate();
     const { user} = context;
-    const [orderAmount, setOrderAmount] = useState(0);
+    const [orderAmount, setOrderAmount] = useState(100);
 
 
     const cancelPayment = () => {
@@ -40,7 +40,9 @@ const ProductCard = (props) => {
                             </div>
                             <div className="row">
                                 <div className="col-md-12 col-sm-12">
+                                {user && user._id === props.data.Founder_id && (
                                     <Link to={`/dashboard/startup/${props.data._id}/viewReview`} className="btn view_review">View Transaction and Review</Link>
+                                )}
                                 </div>
                             </div>
                         </div>

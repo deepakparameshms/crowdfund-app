@@ -41,6 +41,11 @@ const ViewTransaction = (props) => {
               <p className="text-muted transac_date">{props.date.toString().slice(0, 10)}</p>
             </div>
           </div>
+          <div className="row">
+            <div className="col-md-12">
+              <p className="text-muted transac_payment">Payment Success: {props.isPaid.toString()}</p>
+            </div>
+          </div>
         </div>
       </div>
     </>

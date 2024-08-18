@@ -14,7 +14,7 @@ const Payment = () => {
     const [paymentService, setPaymentService] = useState('RazorPay');
     const location = useLocation();
     const startupData = location.state?.startupData || {};
-    const orderAmount = location.state?.amount || 10; 
+    const orderAmount = location.state?.amount || 100; 
 
     useEffect(() => {
         if (paymentSuccess) {

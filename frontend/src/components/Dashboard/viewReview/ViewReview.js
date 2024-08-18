@@ -80,7 +80,7 @@ const ViewReview = () => {
                                 <div className="row">
                                     {transaction.map((element) => {
                                         return <div className="col-md-4 col-sm-6 my-3">
-                                            <ViewTransaction amount={element.amount} date={element.date} investor_id={element.investor_id} />
+                                            <ViewTransaction amount={element.amount} date={element.date} isPaid={element.isPaid} investor_id={element.investor_id} />
                                         </div>
                                     })}
 
