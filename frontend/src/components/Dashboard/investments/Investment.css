@@ -1,3 +1,11 @@
+.noinvestment_text{
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    text-align: center;
+    margin-top: 10%;
+}
+
 .investment_heading{
     color: rgb(225, 41, 246);
     font-weight: 400;
@@ -143,3 +151,4 @@
         margin-right: 0;
     }
 }
+
