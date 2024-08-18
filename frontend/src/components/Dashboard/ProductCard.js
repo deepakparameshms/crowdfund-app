@@ -10,7 +10,7 @@ const ProductCard = (props) => {
     const context = useContext(UserContext);
     const navigate = useNavigate();
     const { user} = context;
-    const { loadRazorpay, setOrderAmount, orderAmount, paymentSuccess, submitPayment} = context;
+    const { setOrderAmount, orderAmount, paymentSuccess, submitPayment} = context;
 
     useEffect(() => {
         if (paymentSuccess) {
@@ -93,7 +93,7 @@ const ProductCard = (props) => {
                                 <>
                                 <h2 className="product_card_title">₹ {props.data.Current}</h2>
                                 <p className="product_card_desc">pledged of ₹ {props.data.Ask} goal</p>
-                                <h2 className="product_card_title">{props.data.Supporters}</h2>
+                                <h2 className="product_card_title">{props.data.Investments}</h2>
                                 <p className="product_card_desc">Investments</p>
                                 <button type="button" onClick={() => setIsBacker(true)} className="btn backer__btn" disabled={props.data.isAchieved}>
                                         {props.data.isAchieved ? "Milestone Achieved 🎉" : "Support project"}

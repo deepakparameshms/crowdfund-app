@@ -9,7 +9,7 @@ import UserContext from "../../Context/userContext";
 const Product = () => {
   const param = useParams();
   const context = useContext(UserContext);
-  const { setStartupData, loadRazorpay, startupData } = context;
+  const { setStartupData, startupData } = context;
   const navigate = useNavigate();
 
   useEffect(() => {

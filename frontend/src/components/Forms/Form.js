@@ -10,21 +10,21 @@ const Form = () => {
     const context = useContext(UserContext);
     let { showAlert } = context;
     const location = useLocation();
-    const startupData = location.state?.startupData;
+    const startupData = location.state?.startupData || {};
 
     const [credentials, setCredentials] = useState({
-        Name: startupData.Name || "",
-        Description: startupData.Description || "",
-        Website: startupData.Website || "",
-        Email: startupData.Email || "",
-        Instagram: startupData.Instagram || "",
-        LinkedIn: startupData.LinkedIn || "",
-        LogoUrl: startupData.LogoUrl || "",
-        Category: startupData.Category || "",
-        Vision: startupData.Vision || "",
-        Problemstatement: startupData.Problemstatement || "",
-        Solution: startupData.Solution || "",
-        Ask: startupData.Ask || 0
+        Name: startupData?.Name || "",
+        Description: startupData?.Description || "",
+        Website: startupData?.Website || "",
+        Email: startupData?.Email || "",
+        Instagram: startupData?.Instagram || "",
+        LinkedIn: startupData?.LinkedIn || "",
+        LogoUrl: startupData?.LogoUrl || "",
+        Category: startupData?.Category || "",
+        Vision: startupData?.Vision || "",
+        Problemstatement: startupData?.Problemstatement || "",
+        Solution: startupData?.Solution || "",
+        Ask: startupData?.Ask || 0
     });
 
     useEffect(() => {
