@@ -4,11 +4,14 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from '../../Axios/axios';
 import UserContext from "../../Context/userContext";
 
+
 const ProductCard = (props) => {
     const [isbacker, setIsBacker] = useState(false);
     const context = useContext(UserContext);
     const navigate = useNavigate();
+    const { user} = context;
     const { loadRazorpay, setOrderAmount, orderAmount, paymentSuccess, submitPayment} = context;
+
     useEffect(() => {
         if (paymentSuccess) {
             navigate("/dashboard/startup/review");
@@ -75,6 +78,13 @@ const ProductCard = (props) => {
                     <label className="startup_label">How they are solving the problem</label>
                     <p className="startup_label_desc">{props.data.Solution}</p>
                     <hr className="startup_label_hr" />
+                    {user && user._id === props.data.Founder_id && (
+                        <Link className="btn btn-primary" to={`/dashboard/update-startup/${props.data._id}`}
+                        state={{ startupData: props.data }}
+                        >
+                            Update Project
+                        </Link>
+                    )}
                 </div>
                 <div className="col-lg-3 col-md-12 col-sm-12 mb-3">
                     <div className="card product_card">
@@ -84,7 +94,7 @@ const ProductCard = (props) => {
                                 <h2 className="product_card_title">₹ {props.data.Current}</h2>
                                 <p className="product_card_desc">pledged of ₹ {props.data.Ask} goal</p>
                                 <h2 className="product_card_title">{props.data.Supporters}</h2>
-                                <p className="product_card_desc">Supporters</p>
+                                <p className="product_card_desc">Investments</p>
                                 <button type="button" onClick={() => setIsBacker(true)} className="btn backer__btn" disabled={props.data.isAchieved}>
                                         {props.data.isAchieved ? "Milestone Achieved 🎉" : "Support project"}
                                 </button>
@@ -103,6 +113,7 @@ const ProductCard = (props) => {
                     </div>
                 </div>
             </div>
+
         </div>
     )
 }

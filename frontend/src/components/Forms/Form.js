@@ -1,70 +1,69 @@
 import React, { useState, useEffect, useContext } from 'react';
 import "./Form.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import UserContext from '../../Context/userContext';
 import axios from '../../Axios/axios';
+
 const Form = () => {
+
+    const navigate = useNavigate();
+    const context = useContext(UserContext);
+    let { showAlert } = context;
+    const location = useLocation();
+    const startupData = location.state?.startupData;
+
+    const [credentials, setCredentials] = useState({
+        Name: startupData.Name || "",
+        Description: startupData.Description || "",
+        Website: startupData.Website || "",
+        Email: startupData.Email || "",
+        Instagram: startupData.Instagram || "",
+        LinkedIn: startupData.LinkedIn || "",
+        LogoUrl: startupData.LogoUrl || "",
+        Category: startupData.Category || "",
+        Vision: startupData.Vision || "",
+        Problemstatement: startupData.Problemstatement || "",
+        Solution: startupData.Solution || "",
+        Ask: startupData.Ask || 0
+    });
+
     useEffect(() => {
         if (!localStorage.getItem('token')) {
             navigate("/login");
         }
     }, []);
-    const [credentials, setCredentials] = useState({ Name: "", Description: "", Website: "", Email: "", Instagram: "", LinkedIn: "", LogoUrl: "", Category: "", Vision: "", Problemstatement: "", Solution: "", Ask: 0 });
-    const navigate = useNavigate();
-    const context = useContext(UserContext);
-    let { showAlert } = context;
-    const createStartup = async (e) => {
+
+    const createOrUpdateStartup  = async (e) => {
         e.preventDefault();
-        const { Name,
-            Description,
-            Website,
-            Email,
-            Instagram,
-            LinkedIn,
-            LogoUrl,
-            Category,
-            Vision,
-            Problemstatement,
-            Solution,
-            Ask } = credentials;
-        const response = await axios.post('/api/investor/create-startup',
-            {
-                Name,
-                Description,
-                Website,
-                Email,
-                Instagram,
-                LinkedIn,
-                LogoUrl,
-                Category,
-                Vision,
-                Problemstatement,
-                Solution,
-                Ask
-            },
-            {
-                headers: {
+        const { Name, Description, Website, Email, Instagram, LinkedIn, LogoUrl, Category, Vision, Problemstatement, Solution, Ask } = credentials;
+        const url = startupData._id
+            ? `/api/investor/update-startup/${startupData._id}`
+            : '/api/investor/create-startup';
+        const method = startupData && startupData._id ? "put" : "post";
+        const response = await axios({
+            method: method,
+            url: url,
+            data: {
+                Name, Description, Website, Email, Instagram, LinkedIn, LogoUrl, Category, Vision, Problemstatement, Solution, Ask
+            }, 
+            headers: {
                     "Content-Type": "application/json",
                     "auth-token":
                         localStorage.getItem('token'),
-                },
-
+            }
             }).catch((error) => {
                 showAlert(error.response.data.msg);
             });
         if (response.data.success) {
             showAlert(response.data.msg, "success");
+            navigate(-1)
         }
         setCredentials({ Name: "", Description: "", Website: "", Email: "", Instagram: "", LinkedIn: "", LogoUrl: "", Category: "", Vision: "", Problemstatement: "", Solution: "", Ask: 0 })
-        navigate("/dashboard");
+        // navigate("/dashboard");
     }
     const onChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
     };
-
-    const handleCancel = () => {
-        navigate(-1);
-    }
 
     return (
         <>
@@ -73,7 +72,7 @@ const Form = () => {
                     <div className="col-md-7">
                         <div className="card-body">
                             <h1 className="card-title text-center startup_form_head">Project Registration Form</h1>
-                            <form className="my-4" onSubmit={createStartup}>
+                            <form className="my-4" onSubmit={createOrUpdateStartup}>
                                 <div className="mb-3">
                                     <label htmlFor="Name" className="form-label text-muted">What is the name of your project?</label>
                                     <input type="text"
@@ -218,8 +217,8 @@ const Form = () => {
                                         onChange={onChange}
                                         required={true} />
                                 </div>
-                                <button type="submit" className="btn form_submit_btn">Submit</button>
-                                <button type="button" className="btn cancel_btn" onClick={handleCancel}>Cancel</button>
+                                <button type="submit" className="btn form_submit_btn">{startupData._id ? "Update" : "Submit"}</button>
+                                <button type="button" className="btn cancel_btn" onClick={() => {navigate(-1)}}>Cancel</button>
                             </form>
                         </div>
                     </div>

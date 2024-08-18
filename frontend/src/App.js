@@ -74,6 +74,8 @@ function App() {
 
             <Route exact path="/dashboard/create-startup" element={<Form></Form>}></Route>
 
+            <Route path="/dashboard/update-startup/:id" element={<Form></Form>} />
+
             <Route exact path="/dashboard/profile" element={<Profile></Profile>}></Route>
 
             <Route exact path="/dashboard/startup/review" element={<ReviewForm></ReviewForm>}></Route>
