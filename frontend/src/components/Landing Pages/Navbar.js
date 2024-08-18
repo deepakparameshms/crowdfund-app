@@ -15,14 +15,11 @@ const Navbar = () => {
                             <li className="nav-item sub__head__first">
                                 <Link className="nav-link link__first" aria-current="page" to="/vision">Vision</Link>
                             </li>
-                            <li className="nav-item sub__head__second">
-                                <Link className="nav-link link__second" to="/whatwedo">What We Do</Link>
-                            </li>
                             <li className="nav-item sub__head__third">
                                 <Link className="nav-link link__third" to="/howwedoit">How We Do It</Link>
                             </li>
                             <li className="nav-item sub__head__fourth">
-                                <Link className="nav-link link__fourth" to="/resources">Resources</Link>
+                                <Link className="nav-link link__fourth" to="/login">login</Link>
                             </li>
                         </ul>
                     </div>

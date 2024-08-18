@@ -20,10 +20,10 @@ const YourProjects = () => {
     return (
         <>
             <DashboardNavbar />
-            {userStartup.length === 0 ? (<> <h2 className="text-center my-5" style={{ color: "rgb(225, 41, 246)" }}>No Projects To Be Shown...</h2></>) : <div className="container-fluid dashboard__container">
+            {userStartup.length === 0 ? (<> <h2 className="text-center my-5" style={{ color: "rgb(225, 41, 246)" }}>You have not created any project yet</h2></>) : <div className="container-fluid dashboard__container">
 
                 <div className="container my-5">
-                <h2 className="text-center my-5" style={{ color: "rgb(225, 41, 246)" }}>Your Projects...</h2>
+                <h2 className="text-center my-5" style={{ color: "rgb(225, 41, 246)" }}>Your Projects</h2>
                     <div className="row gy-3">
                         {resourceList}
                     </div>
