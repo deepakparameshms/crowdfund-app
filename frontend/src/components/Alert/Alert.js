@@ -12,7 +12,7 @@ const Alert = () => {
                 <div className="container my-5">
                     <div className="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
                         <i className="start-icon far fa-check-circle faa-tada animated"></i>
-                        <strong className="font__weight-semibold">Well done!</strong> {alert.message}
+                        <strong className="font__weight-semibold">Success!</strong> {alert.message}
                     </div>
                 </div>
             </>
@@ -25,7 +25,7 @@ const Alert = () => {
                 <div className="container my-5">
                     <div className="alert fade alert-simple alert-danger alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
                         <i className="start-icon far fa-times-circle faa-pulse animated"></i>
-                        <strong className="font__weight-semibold">Oh snap!</strong> {alert.message}
+                        <strong className="font__weight-semibold">oops!</strong> {alert.message}
                     </div>
                 </div>
             </>

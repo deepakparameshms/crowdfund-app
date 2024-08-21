@@ -28,8 +28,8 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post(`/api/auth/create-user`, {
-      name: name,
+    const response = await axios.post(`/api/auth/signup`, {
+      username: name,
       email: email,
       password: password
     },
@@ -39,11 +39,9 @@ const Signup = () => {
         },
       }).catch((error) => {
         showAlert(error.response.data.error, "danger");
-        console.log(error.response.data.error);
       });
-    console.log(response.data);
-    if (response.data.success) {
-      showAlert("Verification mail has been sent to your mail, Please Verify", "success");
+    if (response.data.error == null) {
+      showAlert(response.data.message, "success");
       navigate("/login");
     }
     setCredentials({ name: "", email: "", password: "", cpassword: "" });

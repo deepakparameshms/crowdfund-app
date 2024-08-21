@@ -7,7 +7,7 @@ import Navbar from '../Landing Pages/Navbar';
 import loginImg from '../images/login.jpg';
 
 const Login = () => {
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [credentials, setCredentials] = useState({ username: "", password: "" });
   const navigate = useNavigate();
   const context = useContext(UserContext);
   let { showAlert } = context;
@@ -21,19 +21,19 @@ const Login = () => {
     e.preventDefault();
     const response = await axios.post(`/api/auth/login`,
       {
-        email: credentials.email,
+        username: credentials.username,
         password: credentials.password,
       }).catch((e) => {
         console.log(e.response.data.error);
-        showAlert("Invalid Credentials please check!!!!!", "danger");
+        showAlert(`${e.response.data.error}`, "danger");
       })
-    if (response.data.success) {
+    if (!response.data.error) {
       // Save the authtoken and redirect
-      localStorage.setItem("token", response.data.authtoken);
-      showAlert("Logged In Successfully!!!", "success");
+      localStorage.setItem("token", response.data.accessToken);
+      showAlert(`${response.data.message}`, "success");
       navigate("/dashboard");
     }
-    setCredentials({ email: "", password: "" });
+    setCredentials({ username: "", password: "" });
   };
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -55,12 +55,12 @@ const Login = () => {
                   <div className="row">
                     <div className="col-md-12 col-sm-12">
                       <i className="fa-solid fa-user email__icon"></i>
-                      <input type="email"
+                      <input type="text"
                         className="input__email"
-                        placeholder="Enter Email"
-                        id="email"
-                        name="email"
-                        value={credentials.email}
+                        placeholder="Enter username"
+                        id="username"
+                        name="username"
+                        value={credentials.username}
                         onChange={onChange} />
                     </div>
                     <div className="col-md-12 col-sm-12">

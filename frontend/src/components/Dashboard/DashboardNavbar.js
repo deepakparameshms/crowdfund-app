@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import "./DashboardNavbar.css";
-import profile from "../images/profile.png";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from '../../Context/userContext'
 const DashboardNavbar = () => {
     const navigate = useNavigate();
     const context = useContext(UserContext);
     let { showAlert, setUser } = context;
+    
+    // Todo: call backend
     const handleLogout = () => {
         localStorage.removeItem('token');
         setUser(null)
