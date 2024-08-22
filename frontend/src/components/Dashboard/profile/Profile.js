@@ -49,24 +49,24 @@ const Profile = () => {
                 <div className="row my-5">
                     <div className="col-lg-3 col-md-12 col-sm-12 mb-3">
                         <img src="https://cdn-icons-png.flaticon.com/512/4521/4521953.png" alt="avatar" className="avatar_img" />
-                        <h4 className="text-center my-2 user_name">{user.name}</h4>
+                        <h4 className="text-center my-2 user_name">{user.username}</h4>
                         <br />
                     </div>
                     <div className="col-lg-5 col-md-7 col-sm-12">
                         <h4 className="text-light">Details</h4>
                         <label className="labels">Display Name</label>
-                        <p className="labels_desc">{user.name}</p>
+                        <p className="labels_desc">{user.username}</p>
                         <form>
-                            <label className="labels">Current Password</label> <br />
-                            <input type="password" className="profile_password_input" name="currentPassword" onChange={onChange} value={credentials.currentPassword}></input> <br />
+                            {/* <label className="labels">Current Password</label> <br />
+                            <input type="password" className="profile_password_input" name="currentPassword" onChange={onChange} value={credentials.currentPassword}></input> <br /> */}
 
-                            <label className="labels">Change Password</label> <br />
+                            {/* <label className="labels">Change Password</label> <br />
                             <input type="password" className="profile_password_input" name="changePassword" onChange={onChange} value={credentials.changePassword}></input> <br />
 
                             <label className="labels">Confirm Change Password</label> <br />
                             <input type="password" className="profile_password_input" name="confirmChangePassword" onChange={onChange} value={credentials.confirmChangePassword}></input> <br />
 
-                            <button className="my-2 mb-3 btn change_password_btn" onClick={handleSubmit}>Save Changes</button>
+                            <button className="my-2 mb-3 btn change_password_btn" onClick={handleSubmit}>Save Changes</button> */}
                         </form>
                     </div>
                     <div className="col-lg-4 col-md-5 col-sm-12">

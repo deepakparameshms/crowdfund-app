@@ -6,7 +6,7 @@ const DashboardNavbar = () => {
     const navigate = useNavigate();
     const context = useContext(UserContext);
     let { showAlert, setUser } = context;
-    
+
     // Todo: call backend
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -34,7 +34,7 @@ const DashboardNavbar = () => {
                                 <ul className="dropdown-menu dropdown-menu-end dropdown__menu" aria-labelledby="navbarDropdownMenuLink">
                                     <li><Link className="dropdown-item" to="/dashboard/profile">Your Profile</Link></li>
                                     <li><Link className="dropdown-item" to="/dashboard/yourProject">Your Projects</Link></li>
-                                    <li><Link className="dropdown-item" to="/dashboard/investments">Investments</Link></li>
+                                    <li><Link className="dropdown-item" to="/dashboard/investments">Donations</Link></li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li><button className="dropdown-item" style={{ color: "red" }} onClick={handleLogout}>Logout</button></li>
                                 </ul>

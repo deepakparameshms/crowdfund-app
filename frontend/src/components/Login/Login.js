@@ -29,7 +29,7 @@ const Login = () => {
       })
     if (!response.data.error) {
       // Save the authtoken and redirect
-      localStorage.setItem("token", response.data.accessToken);
+      localStorage.setItem("token", response.data.data.accessToken);
       showAlert(`${response.data.message}`, "success");
       navigate("/dashboard");
     }

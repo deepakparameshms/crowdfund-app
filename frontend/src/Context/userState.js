@@ -45,22 +45,23 @@ const UserState = (props) => {
 
   const getUserData = async () => {
     const response = await axios
-      .get(`/api/auth/getuser`, {
+      .get(`/api/users/profile`, {
         headers: {
           "Content-Type": "application/json",
-          "auth-token": localStorage.getItem("token"),
-        },
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
       })
       .catch((error) => {
         console.log(error.response.data.error);
       });
     setUser(response.data.data);
   };
+
   const getStartups = async () => {
     const response = await axios.get(`/api/investor/fetch-startups`, {
       headers: {
         "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token"),
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
       },
     });
 
@@ -68,12 +69,13 @@ const UserState = (props) => {
       setStartups(response.data.data);
     }
   };
+
   // for Startups DashBoard
   const getUserStartups = async () => {
     const response = await axios.get(`/api/investor/fetchuserStartups`, {
       headers: {
         "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token"),
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
       },
     });
 
