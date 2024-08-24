@@ -36,8 +36,8 @@ const Form = () => {
     const createOrUpdateForm  = async (e) => {
         e.preventDefault();
         const { name, description, website, email, instagram, linkedIn, logoUrl, category, vision, problemStatement, solution, askAmount } = credentials;
-        const url = startupData && startupData._id ? `/api/project/${startupData._id}` : `/api/project/?founderId=66c949bc6d109b04b9899520`;
-        const method = startupData && startupData._id ? "put" : "post";
+        const url = startupData && startupData.id ? `/api/project/${startupData.id}` : `/api/project/?founderId=${context.user.id}`;
+        const method = startupData && startupData.id ? "put" : "post";
 
         try{
             const response = await axios({
@@ -51,11 +51,15 @@ const Form = () => {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             });
-            if (response.status === 200 || response.status === 201) {
-                showAlert(response.data.message, "success");
+            if (response.status === 201) {
                 navigate(-1);
+                showAlert(response.data.message, "success");
+                setCredentials({ name: "", description: "", website: "", email: "", instagram: "", linkedIn: "", logoUrl: "", category: "", vision: "", problemStatement: "", solution: "", askAmount: 0 })
             }
-            setCredentials({ name: "", description: "", website: "", email: "", instagram: "", linkedIn: "", logoUrl: "", category: "", vision: "", problemStatement: "", solution: "", askAmount: 0 })
+            if (response.status === 200) {
+                navigate(-1);
+                showAlert(response.data.message, "success");
+            }
         } catch (error) {
             if (error.response) {
                 // Server responded with a status other than 200 range
@@ -63,7 +67,7 @@ const Form = () => {
                     showAlert("Authentication Expired. Please login", "error");
                     navigate("/login");
                 } else {
-                    showAlert(error.response.data.message || "An error occurred. Please try again.", "error");
+                    showAlert(error.response?.data?.message || "An error occurred. Please try again.", "error");
                 }
             } else if (error.request) {
                 // Request was made but no response received
@@ -216,7 +220,7 @@ const Form = () => {
                                         name="instagram"
                                         value={credentials.instagram}
                                         onChange={onChange}
-                                        required={false}
+                                        required={true}
                                     />
                                 </div>
                                 <div className="mb-3">
@@ -228,9 +232,9 @@ const Form = () => {
                                         name="linkedIn"
                                         value={credentials.linkedIn}
                                         onChange={onChange}
-                                        required={false} />
+                                        required={true} />
                                 </div>
-                                <button type="submit" className="btn form_submit_btn">{startupData._id ? "Update" : "Submit"}</button>
+                                <button type="submit" className="btn form_submit_btn">{startupData.id ? "Update" : "Submit"}</button>
                                 <button type="button" className="btn cancel_btn" onClick={() => {navigate(-1)}}>Cancel</button>
                             </form>
                         </div>

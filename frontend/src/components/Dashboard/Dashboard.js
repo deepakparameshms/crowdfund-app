@@ -28,7 +28,7 @@ const Dashboard = () => {
     return element.Category === category;
   });
   const resourceList = FilteredList.map((el) => (
-    <DashboardCard key={el._id} el={el}></DashboardCard>
+    <DashboardCard key={el.id} el={el}></DashboardCard>
   ))
   return (
     <>

@@ -20,7 +20,7 @@ const UserState = (props) => {
     });
     setTimeout(() => {
       setAlert(null);
-    }, 2000);
+    }, 3500);
   };
   useEffect(() => {
     getUserStartups();
@@ -66,28 +66,43 @@ const UserState = (props) => {
   };
 
   const getStartups = async () => {
-    const response = await axios.get(`/api/investor/fetch-startups`, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      },
-    });
-
-    if (response.data.success) {
-      setStartups(response.data.data);
+    try{
+      const response = await axios.get(`/api/project/all`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+      });
+      if (response.status === 200) {
+          setStartups(response.data.data);
+      }
+    } catch (error) {
+        if (error.response) {
+            // Server responded with a status other than 200 range
+            if (error.response.status === 401) {
+                showAlert("Authentication Expired. Please login", "error");
+            } else {
+                showAlert(error.response?.message || "An error occurred. Please try again.", "error");
+            }
+        } else if (error.request) {
+            // Request was made but no response received
+            showAlert("Network error: Please check your connection.", "error");
+        } else {
+            // Something else happened while setting up the request
+            showAlert("Something went wrong. Please try again.", "error");
+        }
     }
   };
 
   // for Startups DashBoard
   const getUserStartups = async () => {
-    const response = await axios.get(`/api/investor/fetchuserStartups`, {
+    const response = await axios.get(`/api/project/user/${user.id}`, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       },
     });
-
-    if (response.data.success) {
+    if (response.status === 200) {
       setUserStartup(response.data.data);
     }
   };
