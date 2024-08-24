@@ -52,7 +52,15 @@ const UserState = (props) => {
         }
       })
       .catch((error) => {
-        console.log(error.response.data.error);
+        if (error.response){
+          showAlert(error.response.data.msg);
+        } else if (error.request){
+            // The request was made, but no response was received
+            console.log("No Response:", error.request);
+            showAlert("Network error: No response received from server. Please check your connection.");
+        } else {
+            showAlert("Something went wrong.");
+        }
       });
     setUser(response.data.data);
   };
