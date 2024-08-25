@@ -49,8 +49,11 @@ const ProductCard = (props) => {
                     </div>
                 </div>
                 <div className="col-lg-5 col-md-12 col-sm-12 mb-3">
-                    <label className="startup_label">Startup Name</label>
+                    <label className="startup_label">Project's Name</label>
                     <p className="startup_label_desc">{props.data.name}</p>
+                    <hr className="startup_label_hr" />
+                    <label className="startup_label">Startup County</label>
+                    <p className="startup_label_desc">{props.data.location.countryName}</p>
                     <hr className="startup_label_hr" />
                     <label className="startup_label">Description</label>
                     <p className="startup_label_desc">{(props.data.description)}</p>
@@ -58,22 +61,20 @@ const ProductCard = (props) => {
                     <label className="startup_label">Website's Address</label>
                     <p className="startup_label_desc">{props.data.website}</p>
                     <hr className="startup_label_hr" />
-                    <label className="startup_label">Startup Category</label>
+                    <label className="startup_label">Project's Category</label>
                     <p className="startup_label_desc">{props.data.category}</p>
                     <hr className="startup_label_hr" />
-                    <label className="startup_label">Startup's Vision</label>
+                    <label className="startup_label">Project's Vision</label>
                     <p className="startup_label_desc">{props.data.vision}</p>
                     <hr className="startup_label_hr" />
-                    <label className="startup_label">Problem Domain</label>
+                    <label className="startup_label">Problem Statement</label>
                     <p className="startup_label_desc">{props.data.problemStatement}</p>
                     <hr className="startup_label_hr" />
                     <label className="startup_label">How they are solving the problem</label>
                     <p className="startup_label_desc">{props.data.solution}</p>
                     <hr className="startup_label_hr" />
                     {user && user._id === props.data.Founder_id && (
-                        <Link className="btn btn-primary" to={`/dashboard/update-startup/${props.data.id}`}
-                        state={{ startupData: props.data }}
-                        >
+                        <Link className="btn btn-primary" to={`/dashboard/update-startup/${props.data.id}`}state={{ startupData: props.data }}>
                             Update Project
                         </Link>
                     )}
@@ -84,11 +85,11 @@ const ProductCard = (props) => {
                             {!isbacker ? (
                                 <>
                                 <h2 className="product_card_title">{props.data.currentAmount}</h2>
-                                <p className="product_card_desc">pledged of {props.data.askAmount} goal</p>
+                                <p className="product_card_desc">pledged of {props.data.askAmount} ({props.data.location.currencyCode}) goal</p>
                                 <h2 className="product_card_title">{props.data.donations}</h2>
                                 <p className="product_card_desc">Donations</p>
-                                <button type="button" onClick={() => setIsBacker(true)} className="btn backer__btn" disabled={props.data.isAchieved}>
-                                        {props.data.isAchieved ? "Milestone Achieved 🎉" : "Support project"}
+                                <button type="button" onClick={() => setIsBacker(true)} className="btn backer__btn" disabled={props.data.achieved}>
+                                        {props.data.achieved ? "Milestone Achieved 🎉" : "Support project"}
                                 </button>
                                 </>
                                 ) : (
@@ -97,7 +98,7 @@ const ProductCard = (props) => {
                                     <input type="number" min={10} max={1000} className="mb-3 product_card_amount_input" name="orderAmount" value={orderAmount} onChange={(e) => {
                                         setOrderAmount(e.target.value);
                                     }} required />
-                                    <Link className="btn backer__btn" disabled={orderAmount > 10 ? false : true} to={`/payment`} state={{startupData : props.data, amount: orderAmount}}>Pay Now</Link>
+                                    <Link className="btn backer__btn" disabled={orderAmount > 10 ? false : true} to={`/payment`} state={{startupData : props.data, amount: orderAmount, currency: props.data.location.currencyCode}}>Pay Now</Link>
                                     <button type="button" className="btn normal__btn" onClick={cancelPayment}>Cancel</button>
                                 </>
                             )}

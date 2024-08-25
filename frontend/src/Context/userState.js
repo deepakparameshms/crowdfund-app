@@ -13,6 +13,7 @@ const UserState = (props) => {
   const [userStartup, setUserStartup] = useState([]);
   const [investmentData, setInvestmentData] = useState([]);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+
   let showAlert = (message, type) => {
     setAlert({
       message: message,
@@ -23,8 +24,8 @@ const UserState = (props) => {
     }, 3500);
   };
   useEffect(() => {
-    getUserStartups();
     getUserData();
+    // getUserStartups();
   }, []);
 
   const getInvestmentData = async () => {

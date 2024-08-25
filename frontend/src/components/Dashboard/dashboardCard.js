@@ -8,8 +8,14 @@ const DashboardCard = (props) => {
                 <img src={props.el.logoUrl} className="card-img-top dash__card__image" alt="image" draggable={false} />
                 <div className="card-body">
                     <h3 className="card-title dash__card__title">{props.el.name}</h3>
-                    <div className={`status-tag ${props.el.isAchieved ? 'archieved' : 'active'}`}>
-                        {props.el.isAchieved ? 'Archieved' : 'Active'}
+                    
+                    <div className="country-info">
+                        <img src={props.el.location.flag} alt={`${props.el.location.countryName} flag`} className="country-flag" />
+                        <p className="country-name">{props.el.location.countryName}</p>
+                    </div>
+
+                    <div className={`status-tag ${props.el.achieved ? 'archieved' : 'active'}`}>
+                        {props.el.achieved ? 'Archieved' : 'Active'}
                     </div>
                     <p className="card-text my-3 dash__card__desc">{(props.el.description)}</p>
                     <br/>

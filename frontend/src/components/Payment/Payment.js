@@ -14,7 +14,8 @@ const Payment = () => {
     const [paymentService, setPaymentService] = useState('Payal');
     const location = useLocation();
     const startupData = location.state?.startupData || {};
-    const orderAmount = location.state?.amount || 100; 
+    const orderAmount = location.state?.amount || 100;
+    const currencyType = location.state?.currency
 
     useEffect(() => {
         // if (paymentSuccess) {
@@ -38,7 +39,7 @@ const Payment = () => {
                     paymentService: paymentService,
                     paymentServiceMessage: isPaid ? "Payment Successful" : "Some issue occured in our side",
                     paymentMode: paymentMethod,
-                    currencyType: "INR"
+                    currencyType: currencyType
               },
               {
                 headers: {

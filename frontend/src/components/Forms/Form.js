@@ -11,6 +11,10 @@ const Form = () => {
     let { showAlert } = context;
     const location = useLocation();
     const startupData = location.state?.startupData || {};
+    const [filteredCountries, setFilteredCountries] = useState([]);
+
+    const countriesList = ["Singapore", "United Kingdom", "Germany", "Switzerland", "United States", "Canada", "South Korea", "Beijing", "Japan", "Australia", "India", "New Zealand", "Indonesia", "Brazil"];
+    const [selectedCurrency, setSelectedCurrency] = useState("");
 
     const [credentials, setCredentials] = useState({
         name: startupData?.name || "",
@@ -24,18 +28,78 @@ const Form = () => {
         vision: startupData?.vision || "",
         problemStatement: startupData?.problemStatement || "",
         solution: startupData?.solution || "",
-        askAmount: startupData?.askAmount || 0
+        askAmount: startupData?.askAmount || 0,
+        location: {
+            countryName: startupData?.location?.countryName || "",
+            currency:  startupData.location?.currency || "",
+            currencyCode: startupData?.location?.currencyCode || "",
+            flag: startupData?.location?.flag || ""
+        }
     });
+
 
     useEffect(() => {
         if (!localStorage.getItem('token')) {
             navigate("/login");
         }
+
+        
+        const fetchCountries = async () => {
+            const cachedCountries = localStorage.getItem('filteredCountries');
+            if (cachedCountries) {
+            setFilteredCountries(JSON.parse(cachedCountries));
+            } else {
+            try {
+                const response = await fetch('https://restcountries.com/v3.1/independent?status=true&fields=name,currencies,flags');
+                const countries = await response.json();
+                console.log(countries)
+                // Filter the required countries
+                const filtered = countries.filter(country => countriesList.includes(country.name.common));
+                
+                // Store in local storage
+                localStorage.setItem('filteredCountries', JSON.stringify(filtered));
+                
+                // Set the state with filtered countries
+                setFilteredCountries(filtered);
+            } catch (error) {
+                console.error("Error fetching countries: ", error);
+            }
+            }
+        };
+    
+        fetchCountries();
     }, []);
+
+    const handleCountryChange = (e) => {
+        const selectedCountry = filteredCountries.find(country => country.name.common === e.target.value);
+        if (selectedCountry) {
+            const currency = Object.values(selectedCountry.currencies)[0];
+            const currencyCode = Object.keys(selectedCountry.currencies)[0];
+            setSelectedCurrency(currency.name);
+
+            // Update the credentials state with the selected country's information
+            setCredentials((prevCredentials) => {
+                const updatedCredentials = {
+                    ...prevCredentials,
+                    location: {
+                        countryName: selectedCountry.name.common,
+                        currency: currency.name,
+                        currencyCode: currencyCode,
+                        flag: selectedCountry.flags.png // or selectedCountry.flags.svg if you prefer SVG
+                    }
+                };
+
+                console.log(updatedCredentials);
+
+                return updatedCredentials;
+            });
+        }
+
+    };
 
     const createOrUpdateForm  = async (e) => {
         e.preventDefault();
-        const { name, description, website, email, instagram, linkedIn, logoUrl, category, vision, problemStatement, solution, askAmount } = credentials;
+        const { name, description, website, email, instagram, linkedIn, logoUrl, category, vision, problemStatement, solution, askAmount, location } = credentials;
         const url = startupData && startupData.id ? `/api/project/${startupData.id}` : `/api/project/?founderId=${context.user.id}`;
         const method = startupData && startupData.id ? "put" : "post";
 
@@ -44,7 +108,7 @@ const Form = () => {
                 method: method,
                 url: url,
                 data: {
-                    name, description, website, email, instagram, linkedIn, logoUrl, category, vision, problemStatement, solution, askAmount
+                    name, description, website, email, instagram, linkedIn, logoUrl, category, vision, problemStatement, solution, askAmount, location
                 }, 
                 headers: {
                         "Content-Type": "application/json",
@@ -54,7 +118,9 @@ const Form = () => {
             if (response.status === 201) {
                 navigate(-1);
                 showAlert(response.data.message, "success");
-                setCredentials({ name: "", description: "", website: "", email: "", instagram: "", linkedIn: "", logoUrl: "", category: "", vision: "", problemStatement: "", solution: "", askAmount: 0 })
+                setCredentials({ name: "", description: "", website: "", email: "", instagram: "", linkedIn: "", 
+                    logoUrl: "", category: "", vision: "", problemStatement: "", solution: "", askAmount: 0, 
+                    location: { countryName: "", currency: "", currencyCode: "", flag: ""} })
             }
             if (response.status === 200) {
                 navigate(-1);
@@ -179,18 +245,6 @@ const Form = () => {
                                     </textarea>
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="askAmount" className="form-label text-muted">How much amount you want to raise for your project?</label>
-                                    <input
-                                        type="number"
-                                        placeholder="Amount"
-                                        className="form-control form_input"
-                                        id="askAmount"
-                                        name="askAmount"
-                                        value={credentials.askAmount}
-                                        onChange={onChange}
-                                        required={true} />
-                                </div>
-                                <div className="mb-3">
                                     <label htmlFor="website" className="form-label text-muted">Enter your website's address</label>
                                     <input type="url"
                                         placeholder="Website's Address"
@@ -226,7 +280,7 @@ const Form = () => {
                                 <div className="mb-3">
                                     <label htmlFor="linkedIn" className="form-label text-muted">Enter your project's LinkedIn Page's link</label>
                                     <input type="url"
-                                        placeholder="Project's LinkedIn Page's link"
+                                        placeholder="Project's / Founder's LinkedIn Page's link"
                                         className="form-control form_input"
                                         id="linkedIn"
                                         name="linkedIn"
@@ -234,6 +288,40 @@ const Form = () => {
                                         onChange={onChange}
                                         required={true} />
                                 </div>
+                                { !startupData.id && (
+                                    <>
+                                        <div className="mb-3">
+                                        <label htmlFor="country" className="form-label text-muted">Select Project's hosted country</label>
+                                        <select
+                                            className="form-select form_input"
+                                            id="country"
+                                            name="country"
+                                            value={credentials.location.countryName}
+                                            onChange={handleCountryChange}
+                                            required={true}
+                                        >
+                                            <option>Choose a country</option>
+                                            {filteredCountries.map((country) => (
+                                                <option key={country.name.common} value={country.name.common}>
+                                                    {country.name.common}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="askAmount" className="form-label text-muted">How much amount you want to raise? ({selectedCurrency})</label>
+                                            <input
+                                                type="number"
+                                                placeholder="Amount"
+                                                className="form-control form_input"
+                                                id="askAmount"
+                                                name="askAmount"
+                                                value={credentials.askAmount}
+                                                onChange={onChange}
+                                                required={true} />
+                                        </div>   
+                                    </>
+                                )}
                                 <button type="submit" className="btn form_submit_btn">{startupData.id ? "Update" : "Submit"}</button>
                                 <button type="button" className="btn cancel_btn" onClick={() => {navigate(-1)}}>Cancel</button>
                             </form>
