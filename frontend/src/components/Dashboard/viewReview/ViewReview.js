@@ -11,43 +11,60 @@ const ViewReview = () => {
     const context = useContext(UserContext);
     const [reviewData, setReviewData] = useState({ rating: 0, totalReview: 0 });
     const [transaction, setTransactions] = useState([]);
-    const { getUserData } = context;
+    const { getUserData, showAlert } = context;
+
     useEffect(() => {
         if (!localStorage.getItem('token')) {
             navigate("/login");
         }
-        const getReviewData = async () => {
-            const response1 = await axios.post('/api/investor/fetchstartupReview', {
-                startup_id: param.id
-            }, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "auth-token":
-                        localStorage.getItem('token'),
-                },
-            }).catch((error) => {
-                console.log(error.response.data.msg);
-            });
-            if (response1.data.success) {
-                setReviewData(response1.data.ReviewData);
-            } console.log(response1);
-            const response2 = await axios.post('/api/investor/getStartupsTransactions', {
-                startup_id: param.id
-            }, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "auth-token":
-                        localStorage.getItem('token'),
-                },
-            }).catch((error) => {
-                console.log(error.response.data.msg)
-            });
-            if (response2.data.success) {
-                setTransactions(response2.data.data);
+        const getData = async () => {
+            // const response1 = await axios.post('/api/investor/fetchstartupReview', {
+            //     startup_id: param.id
+            // }, {
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //         "Authorization": `Bearer ${localStorage.getItem("token")}`
+            //     },
+            // }).catch((error) => {
+            //     console.log(error.response.data.msg);
+            // });
+            // if (response1.data.success) {
+            //     setReviewData(response1.data.ReviewData);
+            // } console.log(response1);
+
+            try{
+                const response2 = await axios.get(`/api/transaction/project/${param.id}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem("token")}` 
+                    },
+                });
+
+                if (response2.status === 200) {
+                    setTransactions(response2.data.data);
+                }
+            } catch(error){
+                if (error.response) {
+                    // Server responded with a status other than 200 range
+                    if (error.response.status === 401) {
+                        showAlert(error.resposne.data.message, "error");
+                    } else if (error.response.status === 400) {
+                        showAlert(error.response.data.message, "error");
+                    } else {
+                        showAlert(error.response.data.message || "An error occurred. Please try again.", "error");
+                    }
+                } else if (error.request) {
+                    // Request was made but no response received
+                    showAlert("Network error: Please check your connection.", "error");
+                } else {
+                    // Something else happened while setting up the request
+                    showAlert("Something went wrong. Please try again.", "error");
+                }
             }
+            
         }
         getUserData();
-        getReviewData();
+        getData();
         console.log(param.id);
     }, [param.id])
 
@@ -59,7 +76,7 @@ const ViewReview = () => {
             <DashboardNavbar />
             <div className="container my-3">
                 <div className="row">
-                    <div className="col-lg-3 col-md-12 col-sm-12 mb-3">
+                    {/* <div className="col-lg-3 col-md-12 col-sm-12 mb-3">
                         <div className="card review_card">
                             <div className="card-body">
                                 <h3 className="text-center my-2">Review</h3>
@@ -72,15 +89,15 @@ const ViewReview = () => {
                                 <h5 className="text-center text-muted">Total Reviews - <b>{reviewData.totalReview}</b></h5>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-lg-9 col-md-12 col-sm-12 mb-3">
+                    </div> */}
+                    <div className="col-lg-12 col-md-12 col-sm-12 mb-3">
                         <div className="card transaction_card">
                             <div className="card-body">
                                 <h2 className="text-center">Transactions</h2>
                                 <div className="row">
                                     {transaction.map((element) => {
                                         return <div className="col-md-4 col-sm-6 my-3">
-                                            <ViewTransaction amount={element.amount} date={element.date} isPaid={element.isPaid} investor_id={element.investor_id} />
+                                            <ViewTransaction amount={element.amount} date={element.date} paid={element.paid} investor_id={element.userId} />
                                         </div>
                                     })}
 

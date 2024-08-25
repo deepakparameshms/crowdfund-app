@@ -11,82 +11,71 @@ const Payment = () => {
     const context = useContext(UserContext);
     const { user, showAlert, setPaymentSuccess, paymentSuccess, setOrderAmount } = context;
     const [paymentMethod, setPaymentMethod] = useState('');
-    const [paymentService, setPaymentService] = useState('RazorPay');
+    const [paymentService, setPaymentService] = useState('Payal');
     const location = useLocation();
     const startupData = location.state?.startupData || {};
     const orderAmount = location.state?.amount || 100; 
 
     useEffect(() => {
-        if (paymentSuccess) {
-            navigate("/dashboard/startup/review");
-        }
+        // if (paymentSuccess) {
+        //     navigate("/dashboard/startup/review");
+        // }
     }, [paymentSuccess])
 
-    const handlePaymentSuccess = async () => {
-        setPaymentSuccess(true);
-        const response = await axios.post(
-            `/api/investor/pay-order`,
-            {
-            isPaid: true,
-            amount: orderAmount,
-            paymentOrderId: uuidv4(),
-            paymentId: uuidv4(),
-            paymentSignature: "signature-from-payment-service",
-            paymentService: paymentService,
-            paymentMode: paymentMethod,
-            transactionId: uuidv4(),
-            investor_id: user._id,
-            startup_id: startupData._id,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "auth-token": localStorage.getItem("token"),
-            },
-          }
-          )
-      
-          if (response.data.success) {
-            showAlert(response.data.msg, "success");
-            setPaymentSuccess(true);
-          }
-    };
-
-    const handlePaymentFailure = async () => {
-        setPaymentSuccess(false);
-        const paymentData = {
-            isPaid: false,
-            amount: orderAmount,
-            paymentOrderId: uuidv4(),
-            paymentId: uuidv4(),
-            paymentSignature: "signature-from-payment-service",
-            paymentService: paymentService,
-            paymentMode: paymentMethod,
-            transactionId: uuidv4(),
-            investor_id: user._id,
-            startup_id: startupData._id,
-          }
-        const response = await axios.post(
-            `/api/investor/pay-order`,
-            paymentData,
-            {
+    const handlePayment = async (isPaid) => {
+        setPaymentSuccess(isPaid);
+        try{
+            const response = await axios.post(
+                `/api/transaction/payment`,
+                {
+                    paid: isPaid,
+                    amount: orderAmount,
+                    userId: user.id,
+                    projectId: startupData.id,
+                    transactionId: uuidv4(),
+                    paymentId: uuidv4(),
+                    signature: "signature-from-payment-service",
+                    paymentService: paymentService,
+                    paymentServiceMessage: isPaid ? "Payment Successful" : "Some issue occured in our side",
+                    paymentMode: paymentMethod,
+                    currencyType: "INR"
+              },
+              {
                 headers: {
-                "Content-Type": "application/json",
-                "auth-token": localStorage.getItem("token"),
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${localStorage.getItem("token")}`  
+                },
+              });
+
+              if (response.status === 201 && isPaid) {
+                showAlert(response.data.message, "success");
+                navigate(-1);
+              } else{
+                showAlert("Payment has failed", "danger");
+                navigate(-1);
+              }
+        } catch (error) {
+            if (error.response) {
+                // Server responded with a status other than 200 range
+                if (error.response.status === 401) {
+                    showAlert(error.resposne.data.message, "error");
+                } else if (error.response.status === 400) {
+                    showAlert(error.response.data.message, "error");
+                } else {
+                    showAlert(error.response.data.message || "An error occurred. Please try again.", "error");
                 }
+            } else if (error.request) {
+                // Request was made but no response received
+                showAlert("Network error: Please check your connection.", "error");
+            } else {
+                // Something else happened while setting up the request
+                showAlert("Something went wrong. Please try again.", "error");
             }
-          )
-          if (response.data.success) {
-            showAlert(response.data.msg, "success");
-            setPaymentSuccess(false);
-          }
-        navigate(`/dashboard/startup/${startupData._id}`);
-        showAlert(`Payment Failed! contact admin with id ${paymentData.transactionId}`, 'danger');
+        }
     };
 
     const handlePaymentCancellation = () => {
-        setPaymentSuccess(false);
-        navigate(`/dashboard/startup/${startupData._id}`);
+        navigate(`/dashboard/startup/${startupData.id}`);
         showAlert('Payment cancelled', 'danger');
     };
 
@@ -122,8 +111,8 @@ const Payment = () => {
                         <label className="form-check-label">UPI</label>
                     </div>
                 </div>
-                <button type="button" className="btn btn-success" onClick={handlePaymentSuccess}>Simulate Payment Success</button>
-                <button type="button" className="btn btn-danger" onClick={handlePaymentFailure}>Simulate Payment Failure</button>
+                <button type="button" className="btn btn-success" onClick={() => handlePayment(true)}>Simulate Payment Success</button>
+                <button type="button" className="btn btn-danger" onClick={() => handlePayment(false)}>Simulate Payment Failure</button>
                 <button type="button" className="btn btn-danger" onClick={handlePaymentCancellation}>Cancel</button>
             </form>
         </div>

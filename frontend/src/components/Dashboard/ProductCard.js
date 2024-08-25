@@ -41,7 +41,7 @@ const ProductCard = (props) => {
                             <div className="row">
                                 <div className="col-md-12 col-sm-12">
                                 {user && user._id === props.data.Founder_id && (
-                                    <Link to={`/dashboard/startup/${props.data.id}/viewReview`} className="btn view_review">View Transaction and Review</Link>
+                                    <Link to={`/dashboard/startup/${props.data.id}/viewReview`} className="btn view_review">View Transactions</Link>
                                 )}
                                 </div>
                             </div>
@@ -83,8 +83,8 @@ const ProductCard = (props) => {
                         <div className="card-body">
                             {!isbacker ? (
                                 <>
-                                <h2 className="product_card_title">₹ {props.data.currentAmount}</h2>
-                                <p className="product_card_desc">pledged of ₹ {props.data.askAmount} goal</p>
+                                <h2 className="product_card_title">{props.data.currentAmount}</h2>
+                                <p className="product_card_desc">pledged of {props.data.askAmount} goal</p>
                                 <h2 className="product_card_title">{props.data.donations}</h2>
                                 <p className="product_card_desc">Donations</p>
                                 <button type="button" onClick={() => setIsBacker(true)} className="btn backer__btn" disabled={props.data.isAchieved}>
