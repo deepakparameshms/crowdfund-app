@@ -9,9 +9,11 @@ import ReactLoading from 'react-loading';
 const Dashboard = () => {
   const navigate = useNavigate();
   const context = useContext(UserContext);
-  let { getUserData, startups, getStartups } = context;
+  let { getUserData, startups, getStartups, fetchCountries, filteredCountries } = context;
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("*")
+  const [selectedCountry, setSelectedCountry] = useState("*");
+
   useEffect(() => {
     if (!localStorage.getItem('token')) {
       navigate("/login");
@@ -21,11 +23,16 @@ const Dashboard = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
+    fetchCountries();
   }, [])
 
   const resourceCopy = [...startups];
-  const FilteredList = category === "*" ? resourceCopy : resourceCopy.filter((element) => {
-    return element.Category === category;
+  console.log(resourceCopy);
+  const FilteredList = resourceCopy.filter((element) => {
+    return (
+      (category === "*" || element.category === category) &&
+      (selectedCountry === "*" || element.location.countryName === selectedCountry)
+    );
   });
   const resourceList = FilteredList.map((el) => (
     <DashboardCard key={el.id} el={el}></DashboardCard>
@@ -48,10 +55,34 @@ const Dashboard = () => {
         </div>
         <div className="container-fluid dashboard__container">
 
+        <div className="row mb-3">
+          <div className="col-lg-3">
+            <label htmlFor="countryFilter" className="form-label country-label" >Filter by Country</label>
+            <select
+              id="countryFilter"
+              className="form-select country-select"
+              value={selectedCountry}
+              onChange={(e) => setSelectedCountry(e.target.value)}
+            >
+              <option value="*">All Countries</option>
+              {filteredCountries.map((country, index) => (
+                <option key={index} value={country.name.common}>
+                  {country.name.common}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
           <div className="container my-5">
             <div className="row gy-3">
-              {(FilteredList.length === 0) && <> <h2 className="text-center my-5" style={{ color: "rgb(225, 41, 246)" }}>No Projects of this category has been here yet!</h2></>}
-              {resourceList}
+              {FilteredList.length === 0 ? (
+                    <h2 className="text-center my-5" style={{ color: "rgb(225, 41, 246)" }}>
+                      No Projects match the selected criteria!
+                    </h2>
+                  ) : (
+                  resourceList
+                )}
             </div>
           </div>
         </div>

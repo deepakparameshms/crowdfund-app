@@ -23,3 +23,28 @@ div.scrollmenu h5 {
 div.scrollmenu h5:hover {
     color: #f0d2d2;
 }
+
+.country-label {
+    color: white;
+    margin-top: 5%;
+    margin-bottom: 8px;
+    margin-left: 10%;
+    display: flex;
+    overflow: auto;
+    white-space: nowrap;
+  }
+  
+  .country-select {
+    font-size: 14px;
+    padding: 8px;
+    margin-left: 10%;
+    background-color: #f8f9fa; /* Light background */
+    border: 1px solid #ced4da; /* Border color */
+    border-radius: 4px;
+  }
+  
+  .country-select:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }

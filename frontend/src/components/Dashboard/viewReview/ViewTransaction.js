@@ -33,18 +33,28 @@ const ViewTransaction = (props) => {
       <div className="card view_transaction_card">
         <div className="card-body">
           <h5 className="text-center text-muted">Username</h5>
-          <p className="text-center">"DummyName"</p>
+          <p className="text-center">{props.el.userName}</p>
           <div className="row">
-            <div className="col-md-6">
-              <p className="text-muted transac_amount">₹ {props.amount}</p>
+            <div className="col-md-12">
+              <p className="text-muted transac_date text-center">{new Date(props.el.date.toString()).toLocaleDateString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                  hour12: true,
+                  hour: 'numeric',
+                  minute: 'numeric',
+                  second: 'numeric',
+                })}</p>
             </div>
-            <div className="col-md-6">
-              <p className="text-muted transac_date">{props.date.toString().slice(0, 10)}</p>
+          </div>
+          <div className='row'>
+          <div className="col-md-12">
+              <p className="text-muted transac_amount "> {props.el.currencyType} {props.el.amount}</p>
             </div>
           </div>
           <div className="row">
             <div className="col-md-12">
-              <p className="text-muted transac_payment">Payment Success: {props.paid.toString()}</p>
+              <p className="text-muted transac_payment">Payment Success: {props.el.paid.toString()}</p>
             </div>
           </div>
         </div>

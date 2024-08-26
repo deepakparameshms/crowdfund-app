@@ -13,6 +13,9 @@ const UserState = (props) => {
   const [userStartup, setUserStartup] = useState([]);
   const [investmentData, setInvestmentData] = useState([]);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [filteredCountries, setFilteredCountries] = useState([]);
+  const countriesList = ["Singapore", "United Kingdom", "Germany", "Switzerland", "United States", "Canada", "South Korea", "Beijing", "Japan", "Australia", "India", "New Zealand", "Indonesia", "Brazil"];
+
 
   let showAlert = (message, type) => {
     setAlert({
@@ -29,18 +32,32 @@ const UserState = (props) => {
   }, []);
 
   const getInvestmentData = async () => {
-    const response = await axios
-      .get("/api/investor/getTransactions", {
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": localStorage.getItem("token"),
-        },
-      })
-      .catch((error) => {
-        console.log(error.response.data.msg);
-      });
-    if (response.data.success) {
-      setInvestmentData(response.data.data);
+    try{
+      const response = await axios.get(`/api/transaction/user/${user.id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+          },
+        })
+        if (response.status === 200) {
+          setInvestmentData(response.data.data);
+          console.log(response.data);
+        }
+    } catch (error) {
+        if (error.response) {
+            // Server responded with a status other than 200 range
+            if (error.response.status === 401) {
+                showAlert("Authentication Expired. Please login", "error");
+            } else {
+                showAlert(error.response?.message || "An error occurred. Please try again.", "error");
+            }
+        } else if (error.request) {
+            // Request was made but no response received
+            showAlert("Network error: Please check your connection.", "error");
+        } else {
+            // Something else happened while setting up the request
+            showAlert("Something went wrong. Please try again.", "error");
+        }
     }
   };
 
@@ -107,6 +124,30 @@ const UserState = (props) => {
       setUserStartup(response.data.data);
     }
   };
+
+  const fetchCountries = async () => {
+      const cachedCountries = localStorage.getItem('filteredCountries');
+      if (cachedCountries) {
+        setFilteredCountries(JSON.parse(cachedCountries));
+      } else {
+      try {
+          const response = await fetch('https://restcountries.com/v3.1/independent?status=true&fields=name,currencies,flags');
+          const countries = await response.json();
+          console.log(countries)
+          // Filter the required countries
+          const filtered = countries.filter(country => countriesList.includes(country.name.common));
+          
+          // Store in local storage
+          localStorage.setItem('filteredCountries', JSON.stringify(filtered));
+          
+          // Set the state with filtered countries
+          setFilteredCountries(filtered);
+      } catch (error) {
+          console.error("Error fetching countries: ", error);
+      }
+      }
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -128,6 +169,8 @@ const UserState = (props) => {
         investmentData,
         paymentSuccess,
         setPaymentSuccess,
+        filteredCountries,
+        fetchCountries
       }}
     >
       {props.children}

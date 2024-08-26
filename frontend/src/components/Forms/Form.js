@@ -8,10 +8,9 @@ const Form = () => {
 
     const navigate = useNavigate();
     const context = useContext(UserContext);
-    let { showAlert } = context;
+    let { showAlert, filteredCountries } = context;
     const location = useLocation();
     const startupData = location.state?.startupData || {};
-    const [filteredCountries, setFilteredCountries] = useState([]);
 
     const countriesList = ["Singapore", "United Kingdom", "Germany", "Switzerland", "United States", "Canada", "South Korea", "Beijing", "Japan", "Australia", "India", "New Zealand", "Indonesia", "Brazil"];
     const [selectedCurrency, setSelectedCurrency] = useState("");
@@ -41,33 +40,7 @@ const Form = () => {
     useEffect(() => {
         if (!localStorage.getItem('token')) {
             navigate("/login");
-        }
-
-        
-        const fetchCountries = async () => {
-            const cachedCountries = localStorage.getItem('filteredCountries');
-            if (cachedCountries) {
-            setFilteredCountries(JSON.parse(cachedCountries));
-            } else {
-            try {
-                const response = await fetch('https://restcountries.com/v3.1/independent?status=true&fields=name,currencies,flags');
-                const countries = await response.json();
-                console.log(countries)
-                // Filter the required countries
-                const filtered = countries.filter(country => countriesList.includes(country.name.common));
-                
-                // Store in local storage
-                localStorage.setItem('filteredCountries', JSON.stringify(filtered));
-                
-                // Set the state with filtered countries
-                setFilteredCountries(filtered);
-            } catch (error) {
-                console.error("Error fetching countries: ", error);
-            }
-            }
-        };
-    
-        fetchCountries();
+        }    
     }, []);
 
     const handleCountryChange = (e) => {

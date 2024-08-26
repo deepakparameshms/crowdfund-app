@@ -65,12 +65,9 @@ const ViewReview = () => {
         }
         getUserData();
         getData();
-        console.log(param.id);
     }, [param.id])
 
     let array1 = Array(reviewData.rating).fill(reviewData.rating);
-    console.log(reviewData)
-    console.log(transaction);
     return (
         <>
             <DashboardNavbar />
@@ -97,7 +94,8 @@ const ViewReview = () => {
                                 <div className="row">
                                     {transaction.map((element) => {
                                         return <div className="col-md-4 col-sm-6 my-3">
-                                            <ViewTransaction amount={element.amount} date={element.date} paid={element.paid} investor_id={element.userId} />
+                                            {/* <ViewTransaction amount={element.amount} date={element.date} paid={element.paid} investor_id={element.userId} /> */}
+                                            <ViewTransaction  key={element.id} el={element}/>
                                         </div>
                                     })}
 

@@ -88,6 +88,8 @@ const ProductCard = (props) => {
                                 <p className="product_card_desc">pledged of {props.data.askAmount} ({props.data.location.currencyCode}) goal</p>
                                 <h2 className="product_card_title">{props.data.donations}</h2>
                                 <p className="product_card_desc">Donations</p>
+                                <h2 className="product_card_title">{props.data.founderName}</h2>
+                                <p className="product_card_desc">Founder's UserName</p>
                                 <button type="button" onClick={() => setIsBacker(true)} className="btn backer__btn" disabled={props.data.achieved}>
                                         {props.data.achieved ? "Milestone Achieved 🎉" : "Support project"}
                                 </button>
