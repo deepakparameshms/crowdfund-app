@@ -40,7 +40,7 @@ const ProductCard = (props) => {
                             </div>
                             <div className="row">
                                 <div className="col-md-12 col-sm-12">
-                                {user && user._id === props.data.Founder_id && (
+                                {user && user.username === props.data.founderName && (
                                     <Link to={`/dashboard/startup/${props.data.id}/viewReview`} className="btn view_review">View Transactions</Link>
                                 )}
                                 </div>
@@ -73,7 +73,7 @@ const ProductCard = (props) => {
                     <label className="startup_label">How they are solving the problem</label>
                     <p className="startup_label_desc">{props.data.solution}</p>
                     <hr className="startup_label_hr" />
-                    {user && user._id === props.data.Founder_id && (
+                    {user && user.username === props.data.founderName && (
                         <Link className="btn btn-primary" to={`/dashboard/update-startup/${props.data.id}`}state={{ startupData: props.data }}>
                             Update Project
                         </Link>

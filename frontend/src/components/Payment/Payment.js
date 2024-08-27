@@ -33,13 +33,15 @@ const Payment = () => {
                     amount: orderAmount,
                     userId: user.id,
                     projectId: startupData.id,
-                    transactionId: uuidv4(),
-                    paymentId: uuidv4(),
-                    signature: "signature-from-payment-service",
-                    paymentService: paymentService,
-                    paymentServiceMessage: isPaid ? "Payment Successful" : "Some issue occured in our side",
-                    paymentMode: paymentMethod,
-                    currencyType: currencyType
+                    transactionType: "DONATION",
+                    paymentInfo:{
+                        paymentId: uuidv4(),
+                        paymentService: paymentService,
+                        signature: "signature-from-payment-service",
+                        paymentServiceMessage: isPaid ? "Payment Successful" : "Some issue occured in our side",
+                        paymentMode: paymentMethod,
+                        currencyType: currencyType
+                    }
               },
               {
                 headers: {

@@ -27,7 +27,6 @@ const Dashboard = () => {
   }, [])
 
   const resourceCopy = [...startups];
-  console.log(resourceCopy);
   const FilteredList = resourceCopy.filter((element) => {
     return (
       (category === "*" || element.category === category) &&

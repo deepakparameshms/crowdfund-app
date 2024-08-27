@@ -17,6 +17,7 @@ const Signup = () => {
     email: "",
     password: "",
     cpassword: "",
+    roles: ["USER"]
   });
   const navigate = useNavigate();
   const context = useContext(UserContext);
@@ -31,7 +32,8 @@ const Signup = () => {
     const response = await axios.post(`/api/auth/signup`, {
       username: name,
       email: email,
-      password: password
+      password: password,
+      roles: ["USER"]
     },
       {
         headers: {
@@ -44,7 +46,7 @@ const Signup = () => {
       showAlert(response.data.message, "success");
       navigate("/login");
     }
-    setCredentials({ name: "", email: "", password: "", cpassword: "" });
+    setCredentials({ name: "", email: "", password: "", cpassword: "", roles: [] });
   };
 
 
