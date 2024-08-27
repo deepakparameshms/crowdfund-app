@@ -13,6 +13,7 @@ const Investment = () => {
             navigate("/login");
         }
         getInvestmentData();
+        console.log(investmentData);
     }, [])
     return (
         <>
@@ -22,7 +23,9 @@ const Investment = () => {
                 <div className="row noinvestment_text">
                     {(investmentData.length === 0) && <h1> You Have not donated yet!</h1>}
                     {(investmentData.length > 0) && (
-                        investmentData.map((element) => {
+                        investmentData
+                            .filter((element) => element.paid === true)
+                            .map((element) => {
                             return <div className="col-md-6 col-sm-12"><InvestmentCard key={element._id} data={element} /></div>
                         })
                     )}

@@ -97,7 +97,7 @@ const Payment = () => {
                     <label className="form-label">You are paying to Startup: <b>{startupData.Name}</b></label>
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">You are paying an amount of: <b>₹{orderAmount}</b></label>
+                    <label className="form-label">You are paying an amount of: ({currencyType}) <b>{orderAmount}</b></label>
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Payment Method</label>

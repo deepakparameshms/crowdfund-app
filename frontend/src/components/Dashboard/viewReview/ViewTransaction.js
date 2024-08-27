@@ -8,6 +8,7 @@ const ViewTransaction = (props) => {
   const context = useContext(UserContext);
   const { user } = context
   useEffect(() => {
+    console.log(props.el)
     // const getuserName = async () => {
     //   const response = await axios.get(`/api/transaction/user/${props.user}`, 
     //   {
@@ -26,7 +27,7 @@ const ViewTransaction = (props) => {
     //   }
     // }
     // getuserName();
-  }, [props.investor_id])
+  }, [])
 
   return (
     <>
@@ -49,7 +50,7 @@ const ViewTransaction = (props) => {
           </div>
           <div className='row'>
           <div className="col-md-12">
-              <p className="text-muted transac_amount "> {props.el.currencyType} {props.el.amount}</p>
+              <p className="text-muted transac_amount "> {props.el.paymentInfo.currencyType} {props.el.amount}</p>
             </div>
           </div>
           <div className="row">

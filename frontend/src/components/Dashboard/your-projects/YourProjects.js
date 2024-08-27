@@ -15,7 +15,7 @@ const YourProjects = () => {
         getUserStartups();
     }, [])
     const resourceList = userStartup.map((el) => (
-        <DashboardCard key={el._id} el={el}></DashboardCard>
+        <DashboardCard key={el.id} el={el}></DashboardCard>
     ))
     return (
         <>
